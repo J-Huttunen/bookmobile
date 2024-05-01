@@ -35,7 +35,7 @@ const UserReviews = () => {
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.reviewItem}>
-                        <Text style={styles.reviewText}>Tit: {item.bookTitle}</Text>
+                        <Text style={styles.reviewText}> {item.bookTitle}</Text>
                         <Text style={styles.reviewText}>Rating: {item.rating}</Text>
                         <Text style={styles.reviewText}>{item.review}</Text>
                     </View>

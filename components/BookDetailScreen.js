@@ -111,7 +111,7 @@ const BookDetailScreen = ({ navigation, route }) => {
                     console.log("Navigating to ReviewForm with bookId:", bookId);
                     navigation.navigate('ReviewForm', {
                         bookId: bookId,
-                        bookTitle: bookDetails.volumeInfo.title  // Oletetaan, että kirjan otsikko on saatavilla tässä
+                        bookTitle: bookDetails.volumeInfo.title
                     });
                 }}
             />
