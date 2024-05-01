@@ -21,7 +21,7 @@ const UserScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>My Reviews</Text>
-            <UserReviews />
+            <UserReviews navigation={navigation} />
             <Button title="Sign Out" onPress={handleSignOut} />
         </View>
     );

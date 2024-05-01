@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { db } from '../api/firebaseConfig';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-const UserReviews = () => {
+const UserReviews = ({ navigation }) => {
     const [reviews, setReviews] = useState([]);
     const auth = getAuth();
     const user = auth.currentUser;
 
     useEffect(() => {
-        const fetchReviews = async () => {
-            if (!user) {
-                console.log("No user logged in");
-                return;
-            }
+        if (user) {
             const q = query(collection(db, 'reviews'), where("userId", "==", user.uid));
-            const querySnapshot = await getDocs(q);
-            const loadedReviews = [];
-            querySnapshot.forEach((doc) => {
-                loadedReviews.push({ id: doc.id, ...doc.data() });
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                const loadedReviews = [];
+                snapshot.forEach((doc) => {
+                    loadedReviews.push({ id: doc.id, ...doc.data() });
+                });
+                setReviews(loadedReviews);
             });
-            setReviews(loadedReviews);
-            console.log("Loaded reviews:", loadedReviews);
-        };
 
-        fetchReviews();
+            return () => unsubscribe();
+        }
     }, [user]);
 
     return (
@@ -34,11 +30,14 @@ const UserReviews = () => {
                 data={reviews}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                    <View style={styles.reviewItem}>
+                    <TouchableOpacity
+                        style={styles.reviewItem}
+                        onPress={() => navigation.navigate('BookDetail', { bookId: item.bookId })}
+                    >
                         <Text style={styles.reviewText}> {item.bookTitle}</Text>
                         <Text style={styles.reviewText}>Rating: {item.rating}</Text>
                         <Text style={styles.reviewText}>{item.review}</Text>
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
         </View>
