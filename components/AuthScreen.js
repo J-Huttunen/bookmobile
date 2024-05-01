@@ -31,7 +31,7 @@ const AuthScreen = () => {
 
     const user = auth.currentUser;
     if (user) {
-        console.log(user.uid); // Käyttäjän yksilöllinen ID
+        console.log(user.uid);
     }
 
     return (

@@ -16,8 +16,7 @@ const BookDetailScreen = ({ navigation, route }) => {
     const [averageRating, setAverageRating] = useState(0);
     const [books, setBooks] = useState([]);
 
-    const { bookId } = route.params; // Oletetaan, että kirjan ID välitetään parametrina
-
+    const { bookId } = route.params;
 
     useEffect(() => {
         if (!bookId) return;
@@ -29,17 +28,16 @@ const BookDetailScreen = ({ navigation, route }) => {
             });
             setReviews(fetchedReviews);
 
-            // Laske arvostelujen keskiarvo, varmista että arvosteluita on ja että ne ovat numeerisia
             if (fetchedReviews.length > 0) {
                 const total = fetchedReviews.reduce((acc, item) => acc + (Number(item.rating) || 0), 0);
                 const average = total / fetchedReviews.length;
                 setAverageRating(average);
             } else {
-                setAverageRating(0); // Jos arvosteluja ei ole, aseta keskiarvo nollaksi
+                setAverageRating(0);
             }
         });
 
-        return () => unsubscribe(); // Peru tilaus, kun komponentti poistuu käytöstä
+        return () => unsubscribe();
     }, [bookId]);
 
     console.log("Book ID in Detail Screen:", bookId);
@@ -67,7 +65,7 @@ const BookDetailScreen = ({ navigation, route }) => {
     const addToReadingList = async (bookId) => {
         if (!user) {
             console.log("No user logged in");
-            return; // Varmista, että käyttäjä on kirjautunut
+            return;
         }
         const existingDocQuery = query(collection(db, 'userBooks'), where("userId", "==", user.uid), where("bookId", "==", bookDetails.id));
         const querySnapshot = await getDocs(existingDocQuery);

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
 import { db } from '../api/firebaseConfig';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { auth } from '../api/firebaseConfig'; // Oletetaan että auth-moduuli tuo autentikaation tiedot
 import { getAuth } from 'firebase/auth';
 import { deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 
@@ -15,7 +14,7 @@ const ReadingList = ({ navigation }) => {
 
 
     useEffect(() => {
-        if (!user) return; // Varmista että käyttäjä on kirjautunut sisään
+        if (!user) return;
 
         const q = query(collection(db, 'userBooks'), where("userId", "==", user.uid));
 
@@ -29,13 +28,13 @@ const ReadingList = ({ navigation }) => {
             setBooks(loadedBooks);
         });
 
-        return () => unsubscribe(); // Siisti tilaukset, kun komponentti poistetaan käytöstä
+        return () => unsubscribe();
     }, [user]);
 
     const removeBookFromList = async (docId) => {
         try {
             await deleteDoc(doc(db, 'userBooks', docId));
-            setBooks(prevBooks => prevBooks.filter(book => book.id !== docId));  // Päivitä tila käyttäen edellistä tilaa
+            setBooks(prevBooks => prevBooks.filter(book => book.id !== docId));
             console.log("Kirja poistettu lukulistalta!");
         } catch (error) {
             console.error("Virhe kirjan poistamisessa lukulistalta: ", error);
@@ -65,7 +64,7 @@ const ReadingList = ({ navigation }) => {
     return (
         <FlatList
             data={books}
-            keyExtractor={item => item.id || item.bookId}  // Käytä Firestore dokumentin ID:tä tai bookId:tä
+            keyExtractor={item => item.id || item.bookId}
             renderItem={renderItem}
         />
     );
