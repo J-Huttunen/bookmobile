@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image, StyleSheet, Button, FlatList } from 'react-native';
+import { View, Text, ScrollView, Image, StyleSheet, Button, FlatList, useWindowDimensions } from 'react-native';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../api/firebaseConfig';
 import { getAuth } from 'firebase/auth';
 import { getDocs, query, where, onSnapshot } from 'firebase/firestore';
 import { Alert } from 'react-native';
 import ReviewItem from './ReviewItem';
+import HTML from 'react-native-render-html';
 
 
 const BookDetailScreen = ({ navigation, route }) => {
@@ -15,6 +16,7 @@ const BookDetailScreen = ({ navigation, route }) => {
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [books, setBooks] = useState([]);
+    const dimensions = useWindowDimensions();
 
     const { bookId } = route.params;
 
@@ -55,6 +57,7 @@ const BookDetailScreen = ({ navigation, route }) => {
 
         fetchBookDetails();
     }, [bookId, user]);
+
 
 
 
@@ -104,7 +107,13 @@ const BookDetailScreen = ({ navigation, route }) => {
                     <Text>No image available</Text>
                 </View>
             )}
-            <Text style={styles.description}>{bookDetails.volumeInfo.description}</Text>
+            <HTML source={{ html: bookDetails.volumeInfo.description }}
+                contentWidth={dimensions.width}
+                tagsStyles={{
+                    p: { fontSize: 18 },
+                    li: { fontSize: 18 }
+                }}
+            />
             <Button
                 title="Write a Review"
                 onPress={() => {
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     description: {
-        fontSize: 16,
+        fontSize: 18,
         color: '#333'
     },
     imagePlaceholder: {

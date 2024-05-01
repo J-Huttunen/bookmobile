@@ -21,7 +21,11 @@ const HomeStack = createStackNavigator();
 
 function HomeStackNavigator() {
     return (
-        <HomeStack.Navigator>
+        <HomeStack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
             <HomeStack.Screen name="BookList" component={BookListScreen} />
             <HomeStack.Screen name="BookDetail" component={BookDetailScreen} options={{ title: 'Book Details' }} />
             <HomeStack.Screen name="ReviewForm" component={ReviewForm} />
