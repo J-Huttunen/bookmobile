@@ -1,12 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import { searchBooks } from './api/googleBooks';  // Olettaen että polku on oikein
+import { StyleSheet } from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './api/firebaseConfig';
+import BottomTabNavigator from './components/BottomTabNavigator';
+import BookListScreen from './components/BookListScreen';
+import BookDetailScreen from './components/BookDetailScreen';
+import ReviewForm from './components/ReviewForm';
+import AuthScreen from './components/AuthScreen';
+
+const Stack = createStackNavigator();
 export default function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return unsubscribe;  // Muista peruuttaa tilaustapahtuma kun komponentti poistuu käytöstä
+  }, []);
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <BottomTabNavigator />
+    </NavigationContainer>
   );
 }
 
