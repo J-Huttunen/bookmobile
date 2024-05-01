@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, } from 'firebase/auth';
 
 const AuthScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -36,14 +36,57 @@ const AuthScreen = ({ navigation }) => {
     }
 
     return (
-        <View>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
-            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-            <Button title="Sign Up" onPress={handleSignUp} />
-            <Button title="Sign In" onPress={() => handleSignIn(navigation)} />
+        <View style={styles.container}>
+            <TextInput placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                style={styles.input}
+            />
+            <TextInput placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                style={styles.input}
+            />
+            <View style={styles.button}>
+                <Button title="Sign Up" onPress={handleSignUp} />
+            </View>
+            <View style={[styles.button, styles.buttonSpacing]}>
+                <Button
+                    title="Sign In"
+                    onPress={handleSignIn}
+                />
+            </View>
             <Text>{message}</Text>
         </View>
     );
 };
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20
+    },
+    input: {
+        width: '80%',
+        height: 50,
+        marginVertical: 10,
+        borderWidth: 1,
+        padding: 10,
+        borderColor: '#ccc',
+        borderRadius: 5
+    },
+    button: {
+        width: '80%',
+        marginVertical: 10
+    },
+    buttonSpacing: {
+        marginTop: 20
+    }
+});
+
+
 
 export default AuthScreen;
