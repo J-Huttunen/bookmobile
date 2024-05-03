@@ -21,7 +21,7 @@ const ReviewForm = ({ route }) => {
         }
         if (!user) {
             console.log("No user logged in");
-            return; // Varmista, että käyttäjä on kirjautunut
+            return; 
         }
         try {
             if (!bookId) {
@@ -30,7 +30,7 @@ const ReviewForm = ({ route }) => {
             }
             await addDoc(collection(db, 'reviews'), {
                 userId: user.uid,
-                bookId: bookId, // Muista määritellä bookId jostain tai välittää se propseina
+                bookId: bookId, 
                 bookTitle: bookTitle,
                 review: review,
                 rating: rating,

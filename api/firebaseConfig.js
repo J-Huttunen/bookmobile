@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyA88xQXZCcP4FGIsI_cwIA_DBgNj999z4Y",
+    apiKey: "",
     authDomain: "bookreview-d1904.firebaseapp.com",
     projectId: "bookreview-d1904",
     storageBucket: "bookreview-d1904.appspot.com",
@@ -21,19 +21,7 @@ const firebaseConfig = {
     measurementId: "G-HLXFBVNJLY"
 };
 
-const addToReadingList = async (bookId) => {
-    if (!user) return; // Varmista, että käyttäjä on kirjautunut
-    try {
-        await addDoc(collection(db, 'userBooks'), {
-            userId: user.uid,
-            bookId: bookId,
-            addedOn: new Date()
-        });
-        console.log("Kirja lisätty lukulistaan!");
-    } catch (error) {
-        console.error("Virhe kirjan lisäämisessä lukulistaan: ", error);
-    }
-};
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

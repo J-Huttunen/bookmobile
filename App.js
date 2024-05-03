@@ -21,7 +21,7 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-    return unsubscribe;  // Muista peruuttaa tilaustapahtuma kun komponentti poistuu käytöstä
+    return unsubscribe; 
   }, []);
 
 
