@@ -19,7 +19,7 @@ const AuthScreen = ({ navigation }) => {
             });
     };
 
-    const handleSignIn = (navigation) => {
+    const handleSignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 setMessage("User signed in successfully!");
